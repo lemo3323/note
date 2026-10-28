@@ -8,6 +8,10 @@ data/sheet/
 # 自作の期待値表・答え合わせ（他サイトの数値を含む）
 data/ev/
 data/compare/
+# note 用に調べた情報（調査メモ・メモとの食い違いにシートの文が入る）
+data/research_note/
+# 記事ごとの確認の記録（シートの文が入る）
+notes/*/review_log.md
 
 # --- いつも除外 ---
 __pycache__/

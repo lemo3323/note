@@ -55,7 +55,7 @@ def page_text(raw: str) -> str:
 
 def norm(s: str) -> str:
     s = unicodedata.normalize("NFKC", s)
-    return re.sub(r"\s+", "", s)
+    return re.sub(r"[\s|｜]+", "", s)   # 表のセルの区切り「|」も無視する
 
 
 def check_item(item: dict, cfg: Config, offline: bool) -> dict:

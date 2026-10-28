@@ -24,6 +24,7 @@ GitHub の lemo3323/note は **公開リポジトリ**。運営者が非公開�
 - 有料記事の本文（`notes/*/article.md` など。無料記事は除外しない）
 - 狙い目シートの写し（`data/sheet/`）
 - 自作の期待値表・答え合わせ（`data/ev/`・`data/compare/`）
+- note 用に調べた情報（`data/research_note/`。調査メモにシートの文が入る）と、記事ごとの `review_log.md`、材料と下書き（`notes/_work/`）
 
 ## 記事の種類（`pipeline/note.py`）
 
