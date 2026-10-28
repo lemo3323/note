@@ -43,6 +43,7 @@ ITEMS = [
     ("yuuri", "有利区間"),
     ("reset", "リセット時の仕様"),
     ("special", "特殊狙い・優遇の条件"),
+    ("situational_rate", "状況別機械割（メーカー公表。ある機種だけ）"),
 ]
 
 
@@ -114,7 +115,8 @@ def summary(spec: dict) -> str:
     for key, label in ITEMS:
         it = spec.get("items", {}).get(key)
         if not it:
-            rows.append(f"  - {label}: （項目なし）")
+            if key != "situational_rate":
+                rows.append(f"  - {label}: （項目なし）")
             continue
         v = it.get("value")
         if v in (None, "", []):

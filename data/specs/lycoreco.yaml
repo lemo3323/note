@@ -240,4 +240,9 @@ items:
       - 106.1%
       - 103.9%
       - 105.1%
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/38719/
 checked: '2026-10-28'
