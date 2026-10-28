@@ -1,0 +1,243 @@
+# 段階1の仕様。value は出典で確認できた値だけ（見つからなければ null）。
+# confidence / why / checked_sources は pipeline/ev/specs.py が書き込む（手で書かない）。
+id: lycoreco
+name: スマスロ リコリス・リコイル
+sheet_name: リコリコ
+sheet_id: m046
+maker: サミー
+introduced: '2026-09-07'
+ceiling_type: cz_st
+items:
+  ceiling:
+    value:
+      kind: CZ間＋ST間
+      cz_games: 600
+      st_games: 850
+      plus_alpha: true
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - CZ間600G＋α
+      - ST間850G＋α
+    - url: https://nana-press.com/kaiseki/machine/1166/38719/
+      site: なな徹
+      evidence:
+      - CZ間600G
+      - AT間850G+α
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/38719/
+  ceiling_benefit:
+    value: CZ間天井はCZ当選。ST間850G天井はST（AT）当選＋Vストック抽選。天井が750G以下に選ばれていたときは成功濃厚のCZ
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - Vストック抽選
+      - 天井750G以下の場合や、短縮天井到達時は前兆経由で成功濃厚のCZに突入
+    - url: https://nana-press.com/kaiseki/machine/1166/38719/
+      site: なな徹
+      evidence:
+      - Vストック抽選
+      - 成功濃厚CZ当選
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/38719/
+  ceiling_short:
+    value:
+    - when: 設定変更時・ST駆け抜け時
+      cz_games: 250
+      st_games: 600
+    - when: 上位CZ失敗後
+      st_games: 250
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 最大250Gに短縮
+      - 最大600Gに短縮
+    - url: https://nana-press.com/kaiseki/machine/1166/38719/
+      site: なな徹
+      evidence:
+      - CZ間250G
+      - AT間600G+α
+      - AT間250G+α
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/38719/
+  first_hit:
+    value:
+      cz: 1/198.7
+      st: 1/328.8
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 1/198.7
+      - 1/328.8
+    - url: https://nana-press.com/kaiseki/machine/1166/
+      site: なな徹
+      evidence:
+      - '198.7'
+      - '328.8'
+    - url: https://p-town.dmm.com/specials/5388
+      site: DMMぱちタウン
+      evidence:
+      - 1/198.7
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/
+    - https://p-town.dmm.com/specials/5388
+  cz_success:
+    value: null
+    note: CZの成功率は見つからない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  payout_rate:
+    value: 97.9
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 97.9%
+    - url: https://nana-press.com/kaiseki/machine/1166/
+      site: なな徹
+      evidence:
+      - '97.9'
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/
+  avg_payout:
+    value: null
+    note: ST1回あたりの平均獲得枚数は公開されていない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  coin_mochi:
+    value: 31.8
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 約31.8G
+    - url: https://nana-press.com/kaiseki/machine/1166/
+      site: なな徹
+      evidence:
+      - 約31.8G/50枚
+    - url: https://p-town.dmm.com/specials/5388
+      site: DMMぱちタウン
+      evidence:
+      - 約31.8G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/
+    - https://p-town.dmm.com/specials/5388
+  net_gain:
+    value:
+      at: 8.4
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 約8.4枚/G
+    - url: https://nana-press.com/kaiseki/machine/1166/
+      site: なな徹
+      evidence:
+      - 約8.4枚/G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/
+  yuuri:
+    value: null
+    note: 見つからない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  reset:
+    value:
+      setting_change: CZ間250G・ST間600Gに短縮
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 設定変更時とST駆け抜け時は最大250Gに短縮
+    - url: https://nana-press.com/kaiseki/machine/1166/38719/
+      site: なな徹
+      evidence:
+      - リセット時
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/38719/
+  special:
+    value:
+    - 上位CZ失敗後はST間250G+αで成功濃厚のCZに当選
+    - 上位ST終了後は100Gの引き戻し区間までフォローが勧められている
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 上位CZ失敗時はST間最大250G＋α
+    - url: https://nana-press.com/kaiseki/machine/1166/38719/
+      site: なな徹
+      evidence:
+      - 上位CZ失敗後
+      - 100Gの引き戻し区間
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/261631/
+    - https://nana-press.com/kaiseki/machine/1166/38719/
+  situational_rate:
+    value:
+    - from: 300
+      to_ceiling: 850
+      rate: 100.3
+    - from: 400
+      to_ceiling: 850
+      rate: 106.1
+    - from: 0
+      to_ceiling: 250
+      rate: 103.9
+      when: 上位CZ失敗後
+    - from: 0
+      to_ceiling: 850
+      rate: 105.1
+      when: 上位ST終了後
+    note: 設定1の状況別機械割（ちょんぼりすた・なな徹が同じ値を掲載）。期待値表の補正（段階2）に使う
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/261631/
+      site: ちょんぼりすた
+      evidence:
+      - 100.3%
+      - 106.1%
+      - 103.9%
+      - 105.1%
+    - url: https://nana-press.com/kaiseki/machine/1166/38719/
+      site: なな徹
+      evidence:
+      - 100.3%
+      - 106.1%
+      - 103.9%
+      - 105.1%
+checked: '2026-10-28'

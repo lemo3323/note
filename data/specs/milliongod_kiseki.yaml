@@ -1,0 +1,196 @@
+# 段階1の仕様。value は出典で確認できた値だけ（見つからなければ null）。
+# confidence / why / checked_sources は pipeline/ev/specs.py が書き込む（手で書かない）。
+id: milliongod_kiseki
+name: スマスロ ミリオンゴッド-神々の軌跡-
+sheet_name: ミリオンゴッド
+sheet_id: null
+maker: ユニバーサル
+introduced: '2026-04-20'
+ceiling_type: game
+items:
+  ceiling:
+    value:
+      kind: ゲーム数
+      games: 1480
+      plus_alpha: true
+      counter: GG間
+    sources:
+    - url: https://chonborista.com/slot/universal-slot/252303/
+      site: ちょんぼりすた
+      evidence:
+      - GG間1480G
+    - url: https://nana-press.com/kaiseki/machine/1112/35715/
+      site: なな徹
+      evidence:
+      - GG間1480G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/universal-slot/252303/
+    - https://nana-press.com/kaiseki/machine/1112/35715/
+  ceiling_benefit:
+    value: GG当選＋ループストック抽選（A〜Dが16.7%ずつ、A＋Z-ZONEが33.2%）
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1112/35715/
+      site: なな徹
+      evidence:
+      - GG当選＋ループストック抽選
+      - 16.7%
+      - 33.2%
+    - url: https://chonborista.com/slot/universal-slot/252303/
+      site: ちょんぼりすた
+      evidence:
+      - ループストック
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1112/35715/
+    - https://chonborista.com/slot/universal-slot/252303/
+  ceiling_short:
+    value:
+    - when: 設定変更時
+      choices:
+      - games: 510
+        rate: 15.2
+      - games: 1000
+        rate: 20.3
+      - games: 1480
+        rate: 64.5
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1112/35715/
+      site: なな徹
+      evidence:
+      - 15.2%
+      - 20.3%
+      - 64.5%
+    - url: https://p-town.dmm.com/specials/4980
+      site: DMMぱちタウン
+      evidence:
+      - '510'
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1112/35715/
+    - https://p-town.dmm.com/specials/4980
+  first_hit:
+    value:
+      at: 1/532.8
+    sources:
+    - url: https://chonborista.com/slot/universal-slot/252303/
+      site: ちょんぼりすた
+      evidence:
+      - 1/532.8
+    - url: https://nana-press.com/kaiseki/machine/1112/
+      site: なな徹
+      evidence:
+      - 1/533
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/universal-slot/252303/
+    - https://nana-press.com/kaiseki/machine/1112/
+  cz_success:
+    value: null
+    note: CZ は無い（GG は液晶奇数揃い・確定役などで当選）。該当なし
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  payout_rate:
+    value: 97.2
+    sources:
+    - url: https://chonborista.com/slot/universal-slot/252303/
+      site: ちょんぼりすた
+      evidence:
+      - 97.2%
+    - url: https://nana-press.com/kaiseki/machine/1112/
+      site: なな徹
+      evidence:
+      - 97.2%
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/universal-slot/252303/
+    - https://nana-press.com/kaiseki/machine/1112/
+  avg_payout:
+    value: null
+    note: 公開値なし（ちょんぼりすたに初当たり確率と出玉率からの「推測値」はあるが、公開された解析値ではないので使わない）
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  coin_mochi:
+    value: 30.8
+    sources:
+    - url: https://chonborista.com/slot/universal-slot/252303/
+      site: ちょんぼりすた
+      evidence:
+      - 30.8G
+    - url: https://nana-press.com/kaiseki/machine/1112/
+      site: なな徹
+      evidence:
+      - 約30.8G/50枚
+    - url: https://p-town.dmm.com/specials/4980
+      site: DMMぱちタウン
+      evidence:
+      - 約30.8G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/universal-slot/252303/
+    - https://nana-press.com/kaiseki/machine/1112/
+    - https://p-town.dmm.com/specials/4980
+  net_gain:
+    value:
+      at: 7.0
+    sources:
+    - url: https://chonborista.com/slot/universal-slot/252303/
+      site: ちょんぼりすた
+      evidence:
+      - 7.0枚
+    - url: https://nana-press.com/kaiseki/machine/1112/35715/
+      site: なな徹
+      evidence:
+      - 7.0枚/G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/universal-slot/252303/
+    - https://nana-press.com/kaiseki/machine/1112/35715/
+  yuuri:
+    value: null
+    note: 有利区間リセット時の恩恵は見つからない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  reset:
+    value:
+      setting_change: 天井ゲーム数を510G・1000G・1480Gから選び直す（510Gか1000Gになるのは3回に1回強）
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1112/35715/
+      site: なな徹
+      evidence:
+      - 1/3以上でゲーム数天井が510G・1000Gのいずれかに短縮
+    - url: https://p-town.dmm.com/specials/4980
+      site: DMMぱちタウン
+      evidence:
+      - '510'
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1112/35715/
+    - https://p-town.dmm.com/specials/4980
+  special:
+    value:
+    - GG終了後は36G（G-ZONEの5G＋最大前兆31G）まで引き戻しの可能性がある
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1112/35715/
+      site: なな徹
+      evidence:
+      - 36G
+    confidence: single
+    why: 信頼サイト1つだけ
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1112/35715/
+checked: '2026-10-28'

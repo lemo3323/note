@@ -1,0 +1,206 @@
+# 段階1の仕様。value は出典で確認できた値だけ（見つからなければ null）。
+# confidence / why / checked_sources は pipeline/ev/specs.py が書き込む（手で書かない）。
+id: otome5
+name: L戦国乙女5 業火を穿つ宿焔の双刃
+sheet_name: 戦国乙女5
+sheet_id: null
+maker: オリンピア（平和）
+introduced: '2026-06-08'
+ceiling_type: game_cycle
+items:
+  ceiling:
+    value:
+      kind: ゲーム数＋周期
+      games: 999
+      plus_alpha: true
+      counter: 実ゲーム数
+      cycles: 6
+      cycle_max_games: 500
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 999G+α or 最大6周期消化
+      - 1周期は加算込み最大500G
+    - url: https://nana-press.com/kaiseki/machine/1160/37315/
+      site: なな徹
+      evidence:
+      - 999G+α
+      - 最大6周期
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/37315/
+  ceiling_benefit:
+    value: AT「強カワRUSH」当選
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 最大6周期（1周期は加算込み最大500G）でATに当選
+    - url: https://nana-press.com/kaiseki/machine/1160/37315/
+      site: なな徹
+      evidence:
+      - AT当選
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/37315/
+  ceiling_short:
+    value:
+    - when: 設定変更時
+      games: 650
+      cycles: 4
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - ゲーム数天井が650Gに短縮
+      - 天井周期が最大4周期に短縮
+    - url: https://nana-press.com/kaiseki/machine/1160/37315/
+      site: なな徹
+      evidence:
+      - 650G+α
+      - 最大4周期
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/37315/
+  first_hit:
+    value:
+      at: 1/359.5
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 1/359.5
+    - url: https://nana-press.com/kaiseki/machine/1160/
+      site: なな徹
+      evidence:
+      - 1/359.5
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/
+  cz_success:
+    value: null
+    note: 初当たりは直AT。巫女ポイント0pt到達時のCZ「乙女アタック」の成功率は見つからない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  payout_rate:
+    value: 97.9
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 97.9%
+    - url: https://nana-press.com/kaiseki/machine/1160/
+      site: なな徹
+      evidence:
+      - 97.9%
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/
+  avg_payout:
+    value: null
+    note: AT1回あたりの平均獲得枚数は公開されていない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  coin_mochi:
+    value: 31.0
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 約31.0G
+    - url: https://nana-press.com/kaiseki/machine/1160/
+      site: なな徹
+      evidence:
+      - 約31.0G/50枚
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/
+  net_gain:
+    value:
+      at: 2.7
+      upper_at: 4.8
+      ending: 6.9
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 約2.7枚
+      - 約4.8枚
+      - 約6.9枚
+    - url: https://nana-press.com/kaiseki/machine/1160/
+      site: なな徹
+      evidence:
+      - 約2.7枚/G
+      - 約4.8枚/G
+      - 約6.9枚/G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/
+  yuuri:
+    value: エンディングなどで有利区間がリセットされた場合は上位CZ「剣聖チャンス」に突入
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 有利区間をリセットした場合は上位CZ「剣聖チャンス」に突入
+    confidence: single
+    why: 信頼サイト1つだけ
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+  reset:
+    value:
+      setting_change: 有利区間・天井をリセット。天井650G・最大4周期に短縮、巫女ポイントをランダム加算
+      power_off_on: 引き継ぐ
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 巫女ポイントをランダム加算
+    - url: https://nana-press.com/kaiseki/machine/1160/37316/
+      site: なな徹
+      evidence:
+      - 650G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/37316/
+  special:
+    value:
+    - AT終了後の1周期目は最大200Gで、AT期待度は約40%とされる
+    - 周期テーブルは3種類（通常Aは最大6周期・通常Bは最大3周期・天国は1周期でAT）
+    sources:
+    - url: https://chonborista.com/slot/orinpia-slot/256147/
+      site: ちょんぼりすた
+      evidence:
+      - 1周期目は200Gで到達かつAT期待度約40%
+      - 最大3周期
+    - url: https://nana-press.com/kaiseki/machine/1160/37315/
+      site: なな徹
+      evidence:
+      - 最大200G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/orinpia-slot/256147/
+    - https://nana-press.com/kaiseki/machine/1160/37315/
+checked: '2026-10-28'

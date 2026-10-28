@@ -1,0 +1,192 @@
+# 段階1の仕様。value は出典で確認できた値だけ（見つからなければ null）。
+# confidence / why / checked_sources は pipeline/ev/specs.py が書き込む（手で書かない）。
+id: kabaneri_unato
+name: スマスロ 甲鉄城のカバネリ 海門決戦
+sheet_name: カバネリ海門
+sheet_id: m017
+maker: サミー
+introduced: '2026-03-02'
+ceiling_type: game_cycle
+items:
+  ceiling:
+    value:
+      kind: ゲーム数＋周期
+      games: 996
+      plus_alpha: true
+      counter: ST間
+      cycles: 6
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/248689/
+      site: ちょんぼりすた
+      evidence:
+      - 996G＋α
+      - 996G or 6周期
+    - url: https://nana-press.com/kaiseki/machine/1097/35403/
+      site: なな徹
+      evidence:
+      - 996G
+      - 最大6周期
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/248689/
+    - https://nana-press.com/kaiseki/machine/1097/35403/
+  ceiling_benefit:
+    value: エピソードボーナス当選（消化後はST突入濃厚）
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1097/35403/
+      site: なな徹
+      evidence:
+      - エピソードボーナス
+    - url: https://chonborista.com/slot/sammy-slot/248689/
+      site: ちょんぼりすた
+      evidence:
+      - エピソードボーナス
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1097/35403/
+    - https://chonborista.com/slot/sammy-slot/248689/
+  ceiling_short:
+    value:
+    - when: 設定変更後・通常ST駆け抜け後・景之ST終了後
+      games: 596
+      cycles: 4
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1097/35403/
+      site: なな徹
+      evidence:
+      - 596G
+      - 最大4周期
+    - url: https://p-town.dmm.com/specials/4884
+      site: DMMぱちタウン
+      evidence:
+      - '596'
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1097/35403/
+    - https://p-town.dmm.com/specials/4884
+  first_hit:
+    value:
+      bonus: 1/254.2
+      st: 1/422.5
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/248689/
+      site: ちょんぼりすた
+      evidence:
+      - 1/254.2
+      - 1/422.5
+    - url: https://nana-press.com/kaiseki/machine/1097/
+      site: なな徹
+      evidence:
+      - '254.2'
+      - '422.5'
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/248689/
+    - https://nana-press.com/kaiseki/machine/1097/
+  cz_success:
+    value: null
+    note: CZ「カバネリチャンス」の成功率は見つからない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  payout_rate:
+    value: 97.5
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/248689/
+      site: ちょんぼりすた
+      evidence:
+      - 97.5%
+    - url: https://nana-press.com/kaiseki/machine/1097/
+      site: なな徹
+      evidence:
+      - 97.5%
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/248689/
+    - https://nana-press.com/kaiseki/machine/1097/
+  avg_payout:
+    value: null
+    note: ST1回あたりの平均獲得枚数は公開されていない
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  coin_mochi:
+    value: 31.4
+    note: なな徹の期待値表は算出条件として31.0Gを使っている（スペックの値は31.4G）
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/248689/
+      site: ちょんぼりすた
+      evidence:
+      - 約31.4G
+    - url: https://nana-press.com/kaiseki/machine/1097/
+      site: なな徹
+      evidence:
+      - 約31.4G/50枚
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/248689/
+    - https://nana-press.com/kaiseki/machine/1097/
+  net_gain:
+    value:
+      at: 6.0
+    sources:
+    - url: https://chonborista.com/slot/sammy-slot/248689/
+      site: ちょんぼりすた
+      evidence:
+      - 6.0枚
+    - url: https://nana-press.com/kaiseki/machine/1097/
+      site: なな徹
+      evidence:
+      - 約6.0枚/G
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://chonborista.com/slot/sammy-slot/248689/
+    - https://nana-press.com/kaiseki/machine/1097/
+  yuuri:
+    value: null
+    note: 有利区間リセット時に黒煙りポイントを獲得する（獲得pt・規定ptは調査中）
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  reset:
+    value:
+      setting_change: ゲーム数天井596G・周期天井最大4周期に短縮
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1097/35403/
+      site: なな徹
+      evidence:
+      - 設定変更後
+    - url: https://p-town.dmm.com/specials/4884
+      site: DMMぱちタウン
+      evidence:
+      - '596'
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1097/35403/
+    - https://p-town.dmm.com/specials/4884
+  special:
+    value:
+    - 駿城ボーナスでSTに入らなかったときは、ST間のゲーム数と周期数を引き継ぐ
+    - 天井短縮中（設定変更後・通常ST駆け抜け後・景之ST終了後）は設定1でも機械割が100%を超えるとされる
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/1097/35403/
+      site: なな徹
+      evidence:
+      - ST間のゲーム数と周期数が引き継がれる
+      - 設定1でも100％を超える
+    confidence: single
+    why: 信頼サイト1つだけ
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/1097/35403/
+checked: '2026-10-28'
