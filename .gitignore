@@ -1,0 +1,18 @@
+# --- 公開リポジトリのあいだ push しないもの（非公開にしたら消してよい） ---
+# 有料記事（無料記事 *_free_* だけは公開してよい）
+notes/*
+!notes/README.md
+!notes/*_free_*/
+# 狙い目シートの写し（運営者のメモ）
+data/sheet/
+# 自作の期待値表・答え合わせ（他サイトの数値を含む）
+data/ev/
+data/compare/
+
+# --- いつも除外 ---
+__pycache__/
+*.pyc
+.venv/
+data/realdata/raw/
+data/research_note/_raw/
+*.log

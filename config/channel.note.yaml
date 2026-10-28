@@ -1,0 +1,96 @@
+# =========================================================
+# note（有料記事）の設定
+#
+# ai-vtuber の config/channel.yaml に、下の「note:」「links:」の節をそのまま足して使う。
+# note.py は次の順で設定を読む：
+#   1. <ai_vtuber_root>/config/channel.yaml（YouTube と同じ設定。research.sites など）
+#   2. このファイル（channel.yaml に note: が無いときだけ、このファイルの note:/links: を使う）
+# =========================================================
+
+paths:
+  # YouTube パイプラインのフォルダ。狙い目シート（data/nerai_latest.csv）と
+  # 調べた情報（data/research/<ID>.json）、描画（renderer/）、assets/model.vrm を共有する
+  ai_vtuber_root: "../ai-vtuber"
+  # シートの CSV が無いとき用の写し（1機種1ファイル。lemo3323/slot の nerai/data/machines と同じ形式）
+  sheet_txt_dir: "data/sheet"
+
+note:
+  price_single: 200          # 単発記事（円）
+  price_monthly: 590         # 月額マガジン・創刊メンバー価格（円）
+  price_monthly_after: 790   # 会員が monthly_raise_at 人を超えたら（円）
+  monthly_raise_at: 100
+  price_premium: 980         # 期待値表つきプラン（円）
+  magazine_name: "波音ひよりの狙い目マガジン（仮）"   # 月額マガジンの名前（決まったら書き換える）
+  out_dir: "notes"           # 記事の出力先 notes/<日付>_<種類>_<ID>/
+
+  # 記事の「運営者の考え方」で使う線（根拠は狙い目シートと config/strategy_notes.md だけ）
+  borders:
+    standard: sheet          # 標準ボーダー＝狙い目シートに書いたゲーム数
+    aggressive: ev_positive  # 強気ボーダー＝自作期待値表（等価）で期待値がプラスになり始めるゲーム数。表が無い機種は出さない
+
+  # 記事中の数字のチェック：この値以上の数字は、シート・採用済みの調べた情報・自作期待値データのどれかに無ければ作り直し
+  number_check_min: 10
+  # 根拠が無くても出してよい数字（18歳未満・価格・年月日 など）
+  # 18歳・20円・50枚あたり・価格・100人・1,000円あたり・12週 など
+  allowed_numbers: [18, 20, 50, 100, 200, 590, 790, 980, 1000]
+  max_retries: 2             # 作り直しの回数
+
+  # 毎回入れる注意書き（記事の最後。文言を変えるときはここだけ直す）
+  disclaimers:
+    - "期待値は長い目で見た平均の目安で、1回ごとの結果を保証するものではありません。天井まで当たらずにハマることもあります。"
+    - "18歳未満の方は遊技できません。"
+    - "遊技はご自身の判断で、無理のない範囲で楽しんでください。のめり込みに注意しましょう。"
+
+  hashtags_base: [パチスロ, スロット, ハイエナ, 天井狙い, 期待値]
+
+  images:
+    enabled: true            # VRM のメタ情報：商用は個人の営利利用まで可（personalProfit）。作者は運営者本人（2026-10-28 確認）
+    header: {width: 1280, height: 670}
+    body: {width: 1280, height: 720, max: 2}
+
+links:
+  paid_magazine: ""          # 月額マガジンの URL（あとで入れる）
+  # 機種の単発記事の URL。キーはシートの ID か機種名（あとで入れる）
+  # 例：m041: "https://note.com/xxxx/n/xxxx"
+  articles: {}
+  # YouTube の説明文に入れる案内の文言（{article} と {magazine} が URL に置き換わる。URL が空の行は出さない）
+  youtube_article_line: "▼この機種の狙い目・やめどき完全版（note）\n{article}"
+  youtube_magazine_line: "▼毎週の狙い目まとめ・狙い目変更のお知らせ（月額マガジン）\n{magazine}"
+
+# YouTube 側の research と同じ格付け（ai-vtuber の channel.yaml に research: があればそちらを使う）
+research:
+  max_age_days: 30
+  allow_single_trusted: true
+  sites:
+    official: []
+    tier1:
+      - chonborista.com          # ちょんぼりすた
+      - p-town.dmm.com           # DMMぱちタウン
+      - nana-press.com           # なな徹
+      - note.com/g1slotapple     # たられば（note）
+      - haienakun.com            # ハイエナくん（会員限定記事は使わない）
+      - altema.jp                # アルテマ
+      - wosaruslot.wpcomstaging.com  # ヲ猿HP
+      - ameblo.jp/wosarusan      # ヲ猿（アメブロ）
+      - note.com/kitaitilabo     # シオン＠期待値研究所（note）
+      - 1geki.jp                 # 一撃（2026-10-21 追加）
+    tier2:
+      - p-world.co.jp            # P-WORLD（スペック・導入日向け）
+  blocked: [x.com, twitter.com, youtube.com, tiktok.com, instagram.com, facebook.com,
+            chiebukuro.yahoo.co.jp, 5ch.net, 2ch.sc, reddit.com]
+  shared_hosts: [note.com, ameblo.jp, hatenablog.com, seesaa.net, fc2.com, livedoor.jp]
+  not_independent:
+    - [altema.jp, chonborista.com]
+
+# 自作期待値表の算出条件（段階2）。表には必ずこの条件を書く
+ev:
+  setting: 1                 # 設定1で計算する
+  games_per_hour: 750        # 1時間あたりの通常時の回転数（AT中も同じ速さで数える）
+  coin_price_yen: 20         # 1枚の貸し出し単価（円）
+  exchanges:
+    - {key: "toka", label: "等価（20円/枚）", yen_per_coin: 20.0, cash_premium: false}
+    - {key: "5.6", label: "5.6枚交換（約17.9円/枚・現金投資）", yen_per_coin: 17.857, cash_premium: true}
+  trials: 200000             # 1点あたりの試行回数
+  stop_rule: "AT（またはボーナス）終了後、引き戻しゾーンを消化して即やめ"
+  max_diff_yen: 600          # 段階4：公開表との差がこの額を超えた開始ゲーム数が多い機種は「準備中」
+  max_diff_ratio: 0.25       # 段階4：差の割合（どちらか大きい方の許容）
