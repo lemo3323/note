@@ -10,6 +10,7 @@ python pipeline/note.py --special 優遇狙い --machines ヴ2,モンキー,北�
 python pipeline/note.py --new-machine <機種>                                  # 新台の初週速報
 python pipeline/note.py --weekly                                             # 月額：今週の狙い目＋変わった台
 python pipeline/note.py --free ホールでの探し方 --machines モンキー,北斗         # 無料記事
+python pipeline/note.py --free "モンキーターンV 初心者ガイド" --machines モンキーターンV --slug guide_m041  # 無料の機種ガイド
 ```
 
 - `--research` を付けると、先に note 用の調査（claude -p ＋ Web 検索）をして `data/research_note/` に保存する。採否は YouTube の research と同じ格付け＋URL確認（＋ページに値が本当に書いてあるか）

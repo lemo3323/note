@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -109,15 +110,25 @@ _NO_LINE_START = set("ー」』）)、。，．！？!?・ぁぃぅぇぉっゃ�
 
 
 def _wrap_px(d: ImageDraw.ImageDraw, text: str, font, width: float) -> list[str]:
-    lines, cur = [], ""
-    for ch in text:
-        # 行頭に来てはいけない文字（ー・」・。など）は、少しはみ出しても前の行に付ける
-        if d.textlength(cur + ch, font=font) > width and cur and ch not in _NO_LINE_START:
+    """吹き出しの改行。文の終わり（！？。）で改行し、最後の行が1〜2文字だけにならないようにする。"""
+    lines = []
+    for part in re.split(r"(?<=[！？。!?])\s*", text):
+        cur = ""
+        for ch in part:
+            # 行頭に来てはいけない文字（ー・」・。など）は、少しはみ出しても前の行に付ける
+            if d.textlength(cur + ch, font=font) > width and cur and ch not in _NO_LINE_START:
+                lines.append(cur)
+                cur = ch
+            else:
+                cur += ch
+        if cur:
             lines.append(cur)
-            cur = ch
-        else:
-            cur += ch
-    return lines + ([cur] if cur else [])
+    # 最後の行が短すぎるときは、前の行の終わりの文字を送る
+    while len(lines) >= 2 and len(lines[-1]) <= 2 and len(lines[-2]) > 3 and lines[-2][-1] not in "！？。!?":
+        lines[-2], lines[-1] = lines[-2][:-1], lines[-2][-1] + lines[-1]
+        while lines[-1][0] in _NO_LINE_START and len(lines[-2]) > 3:
+            lines[-2], lines[-1] = lines[-2][:-1], lines[-2][-1] + lines[-1]
+    return lines
 
 
 def speech_bubble(img: Image.Image, line: str) -> Image.Image:

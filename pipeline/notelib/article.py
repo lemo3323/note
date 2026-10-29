@@ -78,14 +78,14 @@ def operator_view(mats: dict, cfg: Config, kind: str = "machine") -> str:
         if b:
             for key, v in b.items():
                 label = "通常" if key == "normal" else "設定変更時・短縮時"
-                lines.append(f"- 標準ボーダー（{label}）：{v['games']}G〜（狙い目シートの値）")
+                lines.append(f"- 標準ボーダー・{label}：{v['games']}G〜（狙い目シートの値）")
         else:
             lines.append("- 標準ボーダー：上の「条件別の狙い目」のゲーム数（狙い目シートの値）")
         tables = ev.get("tables") or {}
         if tables:
             for key, t in tables.items():
                 if t.get("border_toka") is not None:
-                    lines.append(f"- 強気ボーダー（{t['label']}）：{t['border_toka']}G〜（自作期待値表で、等価なら期待値がプラスになり始める所）")
+                    lines.append(f"- 強気ボーダー・{t['label']}：{t['border_toka']}G〜（自作期待値表で、等価なら期待値がプラスになり始める所）")
         else:
             lines.append("- 強気ボーダー：この機種の自作期待値表はまだ準備中のため、出していません（答え合わせに合格したら追記します）")
         lines.append("")
@@ -98,7 +98,10 @@ def ev_section(mats: dict) -> str:
     parts = []
     for name, ev in (mats.get("ev") or {}).items():
         for key, t in (ev.get("tables") or {}).items():
-            parts.append(t["md"].replace("### ", "### "))
+            md = t["md"]
+            first, _, rest = md.partition("\n")
+            # note は表を表示できないので、表の画像（note.py が images/ に写す）を貼る場所の目印を入れる
+            parts.append(f"{first}\n\n［この表は画像 images/table_ev_{ev['spec_id']}_{key}.png を貼る］\n{rest}")
     if not parts:
         return ""
     return _auto("ev", "## 自作の期待値表（独自試算）\n\n" + "\n".join(parts))
@@ -123,9 +126,21 @@ def guide_to_paid(cfg: Config, mats: dict) -> str:
     """無料記事の最後：有料記事と月額への案内。URL が空なら「準備中」。"""
     mag = cfg.get_path("links.paid_magazine") or ""
     arts = cfg.get_path("links.articles") or {}
-    lines = ["## もっと詳しく知りたい方へ", "",
-             f"- **機種ごとの完全版（単発記事・{cfg.get_path('note.price_single')}円）**：天井・条件別の狙い目・やめどき・特殊狙い・運営者のボーダーまで1機種ずつまとめています。"]
-    listed = [f"  - {k}：{v}" for k, v in arts.items() if v]
+    lines = ["## もっと詳しく知りたい方へ", ""]
+    # 機種ガイド（機種が1つ）ならその機種の完全版を先に案内する。機種が多いテーマの記事は、URL がある機種だけ
+    ms = mats.get("machines", [])
+    for m in ms:
+        url = arts.get(m["id"]) or arts.get(m["name"])
+        if not url and len(ms) > 1:
+            continue
+        url = url or "（記事の URL はここに入ります）"
+        has_ev = bool(((mats.get("ev") or {}).get(m["name"]) or {}).get("tables"))
+        lines.append(f"- **{m['name']}の天井・狙い目・やめどき完全版（単発記事・{cfg.get_path('note.price_single')}円）**："
+                     "何ゲームから打つか（条件別の狙い目）・やめどき・特殊狙い・運営者のボーダー"
+                     f"{'・自作の期待値表' if has_ev else ''}をまとめています。{url}")
+    lines.append(f"- **機種ごとの完全版（単発記事・{cfg.get_path('note.price_single')}円）**：天井・条件別の狙い目・やめどき・特殊狙い・運営者のボーダーまで1機種ずつまとめています。")
+    named = {m["id"] for m in ms} | {m["name"] for m in ms}
+    listed = [f"  - {k}：{v}" for k, v in arts.items() if v and k not in named]
     lines += listed or ["  - （記事の URL はここに入ります）"]
     lines.append(f"- **月額マガジン（{cfg.get_path('note.magazine_name')}・創刊メンバー{cfg.get_path('note.price_monthly')}円／月）**："
                  "毎週の狙い目まとめと、狙い目が変わった台のお知らせ。単発記事も読めます。"

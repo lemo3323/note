@@ -5,6 +5,8 @@
     python pipeline/note.py --new-machine <機種>               # 新台の初週速報
     python pipeline/note.py --weekly                          # 月額：今週の狙い目まとめ＋狙い目が変わった台
     python pipeline/note.py --free ホールでの探し方             # 無料記事（最後に有料記事・月額へ案内）
+    python pipeline/note.py --free "モンキーターンV 初心者ガイド" --machines モンキーターンV --slug guide_m041
+                                                              # 無料の機種ガイド（狙い目は書かず、その機種の完全版へ案内）
 
     --research        先に note 用の調査（claude -p ＋ WebSearch）をして data/research_note/<slug>.json に保存する
     --draft <json>    AI を呼ばずに、この下書き JSON で組み立てる（人や別のセッションが書いた下書き）
@@ -181,7 +183,8 @@ def main() -> None:
         mats = materials.collect(kind, target, cfg, "_", names)
     if kind in ("machine", "new_machine"):
         mid = mats["machines"][0]["id"] if mats["machines"] and mats["machines"][0]["id"] else ""
-        slug = a.slug or mid or slug_for(target)
+        spec = materials.spec_for(mats["machines"][0]["name"], mid) if mats["machines"] else None
+        slug = a.slug or mid or (spec["id"] if spec else "") or slug_for(target)
         mats = materials.collect(kind, target, cfg, slug, names)
     if kind == "weekly":
         slug = today().strftime("%Y%m%d")
@@ -229,7 +232,8 @@ def main() -> None:
         name = f"table_{i}.png"
         images.table_png(heading, cols, rows, ["※note では表を表示できないため画像にしています。"], folder / "images" / name)
         tables.append(f"images/{name}（「{heading}」の表）")
-    for nm, ev in (mats.get("ev") or {}).items():
+    # 自作の期待値表は、記事に表を入れたとき（有料記事）だけ写す。無料記事は公開リポジトリに入るので写さない
+    for nm, ev in ((mats.get("ev") or {}) if "<!-- auto:ev -->" in md else {}).items():
         for key, t in ev.get("tables", {}).items():
             dst = folder / "images" / f"table_ev_{ev['spec_id']}_{key}.png"
             dst.parent.mkdir(parents=True, exist_ok=True)
