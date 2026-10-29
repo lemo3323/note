@@ -1,6 +1,7 @@
-"""記事の画像。見出し画像1枚（1280×670）＋本文1〜2枚。入れすぎない。
+"""記事の画像。見出し画像1枚（1280×670）＋ひよりのセリフ（各セクションの一言）ごとに1枚（1280×600）。
 
-- ひよりの画像：ai-vtuber の Remotion の静止画（Thumbnail コンポジション。ひより＋大きな文言）で描く。
+- ひよりの画像：ai-vtuber の Remotion の静止画（Thumbnail コンポジション。左に文言・右にひより）で描く。
+  セリフの画像は文言を空にして描き、左半分に PIL で吹き出し（セリフ）を重ねる（ai-vtuber 側は変えない）
   表情（emotion）でポーズも決まる（happy→指さし、surprised→驚き、relaxed→首かしげ など。ai-vtuber の POSE_FOR）
 - 機種画像・実機画像は使わない（Thumbnail の machineImage は渡さない）
 - VRM のメタ情報：商用は個人の営利利用まで可（personalProfit）、作者は運営者本人（2026-10-28 確認）→ note に使ってよい
@@ -22,22 +23,41 @@ FONT_CANDIDATES = [
 ]
 
 
+SERIF_SIZE = (1280, 600)
+_AUTO_EMOTIONS = ["happy", "relaxed", "surprised", "neutral"]
+
+
+def _auto_emotion(line: str, n: int) -> str:
+    if "！" in line or "!" in line:
+        return "happy"
+    if "？" in line or "?" in line:
+        return "relaxed"
+    return _AUTO_EMOTIONS[n % len(_AUTO_EMOTIONS)]
+
+
 def plan(draft: dict, cfg: Config) -> list[dict]:
+    """見出し画像1枚＋ひよりのセリフ（各セクションの hiyori）ごとに1枚。"""
     if not cfg.get_path("note.images.enabled", True):
         return []
     hw = cfg.get_path("note.images.header", {"width": 1280, "height": 670})
-    bw = cfg.get_path("note.images.body", {"width": 1280, "height": 720, "max": 2})
-    out, n_body = [], 0
-    for im in draft.get("images", []):
-        emo = im.get("emotion") if im.get("emotion") in EMOTIONS else "happy"
-        if im.get("slot") == "header" and not any(o["file"] == "images/header.png" for o in out):
-            out.append({"file": "images/header.png", "where": "見出し画像", "emotion": emo, "text": im.get("text", ""),
-                        "subtext": im.get("subtext", ""), "width": hw["width"], "height": hw["height"]})
-        elif im.get("slot", "").startswith("after:") and n_body < int(bw.get("max", 2)):
-            n_body += 1
-            out.append({"file": f"images/body{n_body}.png", "where": f"「{im['slot'][6:]}」の見出しの下",
-                        "emotion": emo, "text": im.get("text", ""), "subtext": im.get("subtext", ""),
-                        "width": bw["width"], "height": bw["height"]})
+    sw = cfg.get_path("note.images.serif", {"width": SERIF_SIZE[0], "height": SERIF_SIZE[1]})
+    out = []
+    head = next((im for im in draft.get("images", []) if im.get("slot") == "header"), None)
+    if head:
+        emo = head.get("emotion") if head.get("emotion") in EMOTIONS else "happy"
+        out.append({"file": "images/header.png", "kind": "header", "where": "見出し画像", "emotion": emo,
+                    "text": head.get("text", ""), "subtext": head.get("subtext", ""),
+                    "width": hw["width"], "height": hw["height"]})
+    n = 0
+    for sec in list(draft.get("free_sections", [])) + list(draft.get("paid_sections", [])):
+        line = (sec.get("hiyori") or "").strip()
+        if not line:
+            continue
+        n += 1
+        emo = sec.get("hiyori_emotion") if sec.get("hiyori_emotion") in EMOTIONS else _auto_emotion(line, n)
+        out.append({"file": f"images/serif_{n}.png", "kind": "serif", "where": f"「{sec['heading']}」のひよりのセリフ",
+                    "heading": sec["heading"], "line": line, "emotion": emo, "text": " ", "subtext": "",
+                    "width": sw["width"], "height": sw["height"]})
     return out
 
 
@@ -55,24 +75,111 @@ def _background(cfg: Config) -> str:
 
 
 def render(folder: Path, items: list[dict], cfg: Config) -> list[dict]:
-    """ai-vtuber があれば Remotion で描く。無ければ描かずに戻る（rendered: False）。"""
+    """ai-vtuber があれば Remotion（Thumbnail コンポジション）でひよりを描き、セリフの画像は吹き出しを重ねる。
+    無ければ、配置を確かめるための仮の画像（ひよりの所は枠だけ）を作る（rendered: False）。"""
     pipe = cfg.ai_root / "pipeline"
-    if not (pipe / "remotion.py").exists():
-        return [{**i, "rendered": False} for i in items]
-    sys.path.insert(0, str(pipe))
-    from common import Episode, load_config  # type: ignore
-    from remotion import render_still  # type: ignore
-    ai_cfg = load_config()
-    ep = Episode(id=f"note_{folder.name}", dir=folder, kind="long", format="long", date=folder.name[:10])
-    bg = _background(cfg)
+    available = (pipe / "remotion.py").exists()
     done = []
+    if available:
+        sys.path.insert(0, str(pipe))
+        from common import Episode, load_config  # type: ignore
+        from remotion import render_still  # type: ignore
+        ai_cfg = load_config()
+        ep = Episode(id=f"note_{folder.name}", dir=folder, kind="long", format="long", date=folder.name[:10])
+        bg = _background(cfg)
     for i in items:
         out = folder / i["file"]
         out.parent.mkdir(parents=True, exist_ok=True)
-        render_still(ai_cfg, ep, "Thumbnail", out, {"width": i["width"], "height": i["height"], "text": i["text"],
-                                                     "subtext": i["subtext"], "emotion": i["emotion"], "background": bg})
-        done.append({**i, "rendered": out.exists()})
+        if available:
+            # Thumbnail は左に文言・右にひより。セリフの画像は文言を空にして、左に吹き出しを重ねる
+            render_still(ai_cfg, ep, "Thumbnail", out, {"width": i["width"], "height": i["height"], "text": i["text"],
+                                                         "subtext": i["subtext"], "emotion": i["emotion"], "background": bg})
+            if i["kind"] == "serif" and out.exists():
+                speech_bubble(Image.open(out).convert("RGB"), i["line"]).save(out)
+            done.append({**i, "rendered": out.exists()})
+        else:
+            base = _placeholder(i["width"], i["height"], i["emotion"])
+            img = speech_bubble(base, i["line"]) if i["kind"] == "serif" else _header_text(base, i["text"], i["subtext"])
+            img.save(out)
+            done.append({**i, "rendered": False})
     return done
+
+
+_NO_LINE_START = set("ー」』）)、。，．！？!?・ぁぃぅぇぉっゃゅょァィゥェォッャュョ〜")
+
+
+def _wrap_px(d: ImageDraw.ImageDraw, text: str, font, width: float) -> list[str]:
+    lines, cur = [], ""
+    for ch in text:
+        # 行頭に来てはいけない文字（ー・」・。など）は、少しはみ出しても前の行に付ける
+        if d.textlength(cur + ch, font=font) > width and cur and ch not in _NO_LINE_START:
+            lines.append(cur)
+            cur = ch
+        else:
+            cur += ch
+    return lines + ([cur] if cur else [])
+
+
+def speech_bubble(img: Image.Image, line: str) -> Image.Image:
+    """画像の左半分に、ひよりのセリフの吹き出しを描く（しっぽは右のひよりへ）。"""
+    W, H = img.size
+    u = H / 600
+    d = ImageDraw.Draw(img)
+    size = int(50 * u)
+    font = _font(size)
+    box_w = int(W * 0.47)
+    lines = _wrap_px(d, line, font, box_w - 80 * u)
+    while len(lines) > 4 and size > 28:
+        size -= 4
+        font = _font(size)
+        lines = _wrap_px(d, line, font, box_w - 80 * u)
+    lh = int(size * 1.45)
+    box_h = int(lh * len(lines) + 80 * u)
+    x0, y0 = int(40 * u), int((H - box_h) / 2)
+    x1, y1 = x0 + box_w, y0 + box_h
+    border, fill = "#3b3b58", "#ffffff"
+    tail = [(x1 - 6, y0 + box_h * 0.38), (x1 + 70 * u, y0 + box_h * 0.5), (x1 - 6, y0 + box_h * 0.62)]
+    d.rounded_rectangle((x0, y0, x1, y1), radius=int(40 * u), fill=fill, outline=border, width=int(6 * u))
+    d.polygon(tail, fill=fill)
+    d.line([tail[0], tail[1], tail[2]], fill=border, width=int(6 * u))
+    name_font = _font(int(30 * u))
+    nw = d.textlength("ひより", font=name_font)
+    d.rounded_rectangle((x0 + 30 * u, y0 - 26 * u, x0 + 30 * u + nw + 40 * u, y0 + 26 * u), radius=int(26 * u),
+                        fill="#ff6fa3")
+    d.text((x0 + 50 * u, y0 - 18 * u), "ひより", font=name_font, fill="#ffffff")
+    ty = y0 + 40 * u
+    for ln in lines:
+        d.text((x0 + 40 * u, ty), ln, font=font, fill="#2b2b3a")
+        ty += lh
+    return img
+
+
+def _placeholder(w: int, h: int, emotion: str) -> Image.Image:
+    """ai-vtuber が無い環境用の仮の背景。右側の枠がひよりの描かれる位置（Thumbnail と同じ右寄せ）。"""
+    img = Image.new("RGB", (w, h), "#fde8f0")
+    d = ImageDraw.Draw(img)
+    for y in range(h):
+        t = y / h
+        d.line([(0, y), (w, y)], fill=(int(253 - 30 * t), int(232 - 20 * t), int(240 - 5 * t)))
+    x0, x1 = int(w * 0.6), int(w * 0.95)
+    d.rounded_rectangle((x0, int(h * 0.08), x1, int(h * 0.95)), radius=30, outline="#b07090", width=4)
+    f = _font(int(h / 20))
+    d.text((x0 + 30, int(h * 0.45)), f"ひより（{emotion}）", font=f, fill="#b07090")
+    d.text((x0 + 30, int(h * 0.45) + h / 14), "PC で描き直す", font=f, fill="#b07090")
+    return img
+
+
+def _header_text(img: Image.Image, text: str, subtext: str) -> Image.Image:
+    d = ImageDraw.Draw(img)
+    W, H = img.size
+    f = _font(int(H / 7))
+    y = int(H * 0.3)
+    for ln in _wrap_px(d, text, f, W * 0.55):
+        d.text((48, y), ln, font=f, fill="#ffffff", stroke_width=10, stroke_fill="#3b3b58")
+        y += int(H / 6)
+    if subtext:
+        d.text((48, y + 10), subtext, font=_font(int(H / 16)), fill="#3b3b58")
+    return img
 
 
 def _font(size: int):

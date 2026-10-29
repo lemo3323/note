@@ -24,16 +24,18 @@ def write_kit(folder: Path, draft: dict, kind: str, cfg: Config, images: list[di
         "■ 貼り方\n"
         "1. note で「投稿」→「テキスト」\n"
         "2. 見出し画像：images/header.png を「画像を追加」から（1280×670）\n"
-        "3. article.md の本文を、見出し（## のつく行）ごとに貼る。note は「## 」で大見出し、「- 」で箇条書き、「> 」で引用、「---」で区切り線になる\n"
-        "4. note は表（| で区切った行）を表示できない。表は下の「表の画像」を、その表の場所に画像として貼る\n"
-        "5. 「<!-- auto: … -->」「<!-- /auto -->」の行は貼らない（コードが入れた部分の目印）\n"
-        "6. 有料記事は「公開設定」で「有料」にして値段を入れ、「有料エリア設定」の線を区切りの位置に合わせる\n"
-        "7. 公開前に review_log.md のチェック結果と、本文の数字・注意書きをもう一度確認する",
+        "3. 「> ひより：…」の一言は、目印のところの images/serif_N.png（ひより＋吹き出し）を画像として貼り、キャプションに同じセリフを書く\n"
+        "4. article.md の本文を、見出し（## のつく行）ごとに貼る。note は「## 」で大見出し、「- 」で箇条書き、「> 」で引用、「---」で区切り線になる\n"
+        "5. note は表（| で区切った行）を表示できない。表は下の「表の画像」を、その表の場所に画像として貼る\n"
+        "6. 「<!-- auto: … -->」「<!-- /auto -->」の行は貼らない（コードが入れた部分の目印）\n"
+        "7. 有料記事は「公開設定」で「有料」にして値段を入れ、「有料エリア設定」の線を区切りの位置に合わせる\n"
+        "8. 公開前に review_log.md のチェック結果と、本文の数字・注意書きをもう一度確認する",
     ]
     if images:
         lines.append("■ 画像（ひより）\n" + "\n".join(f"- {i['file']}：{i.get('where', '')}（{i.get('emotion', '')}）"
-                                               + ("" if i.get("rendered") else "　※まだ描いていない。PC で `python pipeline/note.py --render-images "
-                                                  + folder.name + "`") for i in images))
+                                               + ("" if i.get("rendered") else "　※仮の画像（ひよりは未描画）") for i in images)
+                     + ("" if all(i.get("rendered") for i in images) else
+                        f"\n仮の画像は PC で `python pipeline/note.py --render-images {folder.name}` を実行すると、ひよりを描いた画像に置き換わる"))
     if tables:
         lines.append("■ 表の画像\n" + "\n".join(f"- {t}" for t in tables))
     p = folder / "note_kit.txt"

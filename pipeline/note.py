@@ -83,10 +83,13 @@ def markdown_tables(md: str) -> list[tuple[str, list[str], list[list[str]]]]:
 
 
 def place_markers(md: str, img_items: list[dict]) -> str:
-    """貼る場所が分かるように、本文に画像の目印を入れる（表の前・ひよりの画像の見出しの下）。"""
+    """貼る場所が分かるように、本文に画像の目印を入れる（表の前・ひよりのセリフの下）。"""
     lines, out, n_table, in_auto, prev_table = md.splitlines(), [], 0, False, False
-    body_imgs = {i["where"].split("「")[1].split("」")[0]: i["file"] for i in img_items if "「" in i.get("where", "")}
+    serif = {i["heading"]: i["file"] for i in img_items if i.get("kind") == "serif"}
+    heading = ""
     for ln in lines:
+        if ln.startswith("## "):
+            heading = ln[3:].strip()
         if ln.startswith("<!-- auto"):
             in_auto = True
         if ln.startswith("<!-- /auto"):
@@ -97,8 +100,8 @@ def place_markers(md: str, img_items: list[dict]) -> str:
             out.append(f"［この表は画像 images/table_{n_table}.png を貼る］")
         prev_table = is_table
         out.append(ln)
-        if ln.startswith("## ") and ln[3:].strip() in body_imgs:
-            out += ["", f"［ここに画像 {body_imgs[ln[3:].strip()]} を貼る（ひより）］"]
+        if ln.startswith("> ひより：") and heading in serif:
+            out += ["", f"［この一言は画像 {serif[heading]} を貼る（キャプションに同じセリフ）］"]
     return "\n".join(out) + "\n"
 
 
@@ -215,7 +218,7 @@ def main() -> None:
     write_json(work / "draft.json", draft)
     (folder / "article.md").write_text(md, encoding="utf-8")
 
-    # 画像：ひより（見出し＋本文1〜2枚）と、表の画像（note は表を表示できない）
+    # 画像：ひより（見出し＋セリフごと）と、表の画像（note は表を表示できない）
     img_items, tables = [], []
     if not a.no_images:
         img_items = images.plan(draft, cfg)

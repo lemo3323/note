@@ -22,6 +22,7 @@
   "$defs": {
     "section": {"type": "object", "required": ["heading", "body"],
                 "properties": {"heading": {"type": "string"}, "hiyori": {"type": "string", "maxLength": 40},
+                               "hiyori_emotion": {"enum": ["happy", "surprised", "neutral", "relaxed", "angry", "sad"]},
                                "body": {"type": "string"}, "sources": {"type": "array", "items": {"type": "string"}}}}
   }
 }

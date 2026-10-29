@@ -46,7 +46,7 @@ note:
   images:
     enabled: true            # VRM のメタ情報：商用は個人の営利利用まで可（personalProfit）。作者は運営者本人（2026-10-28 確認）
     header: {width: 1280, height: 670}
-    body: {width: 1280, height: 720, max: 2}
+    serif: {width: 1280, height: 600}   # ひよりのセリフ（各セクションの一言）ごとの画像（2026-10-29 運営者の希望）
 
 links:
   paid_magazine: ""          # 月額マガジンの URL（あとで入れる）
