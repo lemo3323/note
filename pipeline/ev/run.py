@@ -86,8 +86,13 @@ def main() -> None:
                    f"- 当たりやすさ 1/{1 / m.hazard:.1f}（天井込みで初当たり1/{1 / m.p_hit:.1f}）、"
                    f"AT1回の獲得 {m.payout:.0f}枚（逆算 {m.payout_raw:.0f}枚 × {cal.factor:.3f}）"]
         sb = sheet_borders(mid)
+        step = int(ev_cfg.get("step", 50))
         for v in m.variants:
-            pts = simulate(m, v, ev_cfg)
+            # 標準ボーダー（シートのゲーム数）が刻みに乗らないときは、その行も計算する
+            sbv = sb.get("reset" if v.key == "reset" else "normal")
+            maxc = max(c for c, _ in v.ceilings)
+            starts = sorted(set(range(0, maxc, step)) | {sbv}) if sbv is not None and sbv % step and sbv < maxc else None
+            pts = simulate(m, v, ev_cfg, starts)
             res["variants"][v.key] = {"label": v.label, "ceilings": v.ceilings, "border_toka": border(pts, "toka"),
                                       "border_56": border(pts, "5.6"), "points": [asdict(p) for p in pts]}
             if v.key in ref:

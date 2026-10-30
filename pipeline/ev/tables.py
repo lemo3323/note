@@ -48,7 +48,7 @@ def markdown_table(m: MachineModel, variant: Variant, points: list[Point], ev_cf
              "|---:|---:|---:|---:|---:|---:|---:|:---|"]
     for p in points:
         mark = []
-        if sheet_border is not None and p.start <= sheet_border < p.start + int(ev_cfg.get("step", 50)):
+        if sheet_border is not None and p.start == sheet_border:
             mark.append("標準ボーダー")
         if agg is not None and p.start == agg:
             mark.append("強気ボーダー")
@@ -96,7 +96,7 @@ def png_table(m: MachineModel, variant: Variant, points: list[Point], out: Path,
         x += w
     for i, p in enumerate(points):
         y += rh
-        fill = "#fff6d6" if (sheet_border is not None and p.start <= sheet_border < p.start + 50) else (
+        fill = "#fff6d6" if (sheet_border is not None and p.start == sheet_border) else (
             "#e6f2ff" if p.start == agg else ("#f6f6f6" if i % 2 else "#ffffff"))
         d.rectangle((x0, y, x0 + sum(widths), y + rh), fill=fill)
         vals = [f"{p.start}G", _yen(p.ev["toka"]), _yen(p.ev["5.6"]), _yen(p.hourly["toka"]),

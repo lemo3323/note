@@ -43,6 +43,14 @@ REFERENCES = {
         "url": "https://nana-press.com/kaiseki/machine/1112/35715/",
         "tables": [("通常条件・リセット時の期待値", {"normal": {0: "toka", 1: "5.6"}, "reset": {2: "toka", 3: "5.6"}})],
     },
+    "hokuto": {
+        "site": "なな徹",
+        "url": "https://nana-press.com/kaiseki/machine/514/13775/",
+        "tables": [
+            ("天井短縮なし時（天井1268", {"normal": {0: "toka", 1: "5.6"}}),
+            ("天井短縮時（天井800", {"reset": {0: "toka", 1: "5.6"}}),
+        ],
+    },
     # リコリコは状況別機械割を係数の推定に使ったので、独立した比べる相手が無い
 }
 
@@ -140,8 +148,9 @@ def compare_variant(variant: str, points: list[Point], ref: dict[str, dict[int, 
     if diffs:
         r.max_abs = max(abs(d) for d in diffs)
         r.mean_diff = sum(diffs) / len(diffs)
-    r.border_mine = border(points, "toka")
     toka = ref.get("toka", {})
+    # プラスになり始めるGは、相手の表と同じ打ち始めの行だけで比べる（標準ボーダーの行を足していても揃える）
+    r.border_mine = border([p for p in points if p.start in toka] or points, "toka")
     first = None
     for g in sorted(toka):
         if toka[g] >= 0:

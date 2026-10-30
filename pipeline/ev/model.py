@@ -160,7 +160,6 @@ class Point:
 
 def simulate(m: MachineModel, variant: Variant, ev_cfg: dict, starts: list[int] | None = None,
              seed: int = 1) -> list[Point]:
-    rng = np.random.default_rng(seed)
     trials = int(ev_cfg.get("trials", 200000))
     gph = float(ev_cfg.get("games_per_hour", 840))
     price = float(ev_cfg.get("coin_price_yen", 20))
@@ -172,6 +171,8 @@ def simulate(m: MachineModel, variant: Variant, ev_cfg: dict, starts: list[int] 
     starts = starts if starts is not None else list(range(0, maxc, step))
     out = []
     for s in starts:
+        # 乱数は打ち始めごとに決める（表に行を足しても、ほかの行の値が変わらないように）
+        rng = np.random.default_rng([seed, int(s)])
         # s G まで当たっていない → 天井の候補を絞る（振り分けがある機種）
         cand = [(c, w) for c, w in variant.ceilings if c > s]
         if not cand:

@@ -1,0 +1,187 @@
+# 段階1の仕様。value は出典で確認できた値だけ（見つからなければ null）。
+# confidence / why / checked_sources は pipeline/ev/specs.py が書き込む（手で書かない）。
+id: hokuto
+name: スマスロ北斗の拳
+sheet_name: 北斗
+sheet_id: m037
+maker: サミー
+introduced: '2023-04-03'
+ceiling_type: game
+items:
+  ceiling:
+    value:
+      kind: ゲーム数
+      games: 1268
+      plus_alpha: true
+      counter: 通常時
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13775/
+      site: なな徹
+      evidence:
+      - 最大1268G+α消化でAT当選
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 天井1268G+α
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13775/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  ceiling_benefit:
+    value: AT「バトルボーナス」当選。AT継続率が優遇され、北斗揃いの期待度アップ
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13775/
+      site: なな徹
+      evidence:
+      - AT継続率が優遇
+      - 北斗揃い期待度アップ
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 継続率優遇&北斗揃い期待度アップ
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13775/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  ceiling_short:
+    value:
+    - when: 設定変更時
+      games: 800
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13776/
+      site: なな徹
+      evidence:
+      - 800G+αで天井到達となる
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 設定変更時は天井が800G+αに短縮
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13776/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  first_hit:
+    value:
+      at: 1/383.4
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13282/
+      site: なな徹
+      evidence:
+      - 11/383.4
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 1/383.4
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13282/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  cz_success:
+    value: null
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  payout_rate:
+    value: 98.0
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13282/
+      site: なな徹
+      evidence:
+      - 198.0%
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 98.0%
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13282/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  avg_payout:
+    value: null
+    sources: []
+    confidence: none
+    why: 見つからない（空のまま。推測で埋めない）
+    checked_sources: []
+  coin_mochi:
+    value: 34.7
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/
+      site: なな徹
+      evidence:
+      - 50枚あたり約34.7G
+    confidence: single
+    why: 信頼サイト1つだけ
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/
+  net_gain:
+    value:
+      at: 4.1
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/
+      site: なな徹
+      evidence:
+      - AT純増約4.1枚/G
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 純増約4.1枚
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  yuuri:
+    value: 設定変更以外の有利区間リセットはAT中の特定条件で行われ、バトルパートの継続率が84%以上に再セットされる（ツラヌキスペック改）
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/20748/
+      site: なな徹
+      evidence:
+      - 84%以上に再セット
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - ツラヌキスペック改
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/20748/
+    - https://chonborista.com/slot/sammy-slot/181626/
+  reset:
+    value:
+      setting_change: 天井800G+αに短縮・モードを抽選し直す
+      power_off_on: 天井・モード・有利区間を引き継ぐ
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13776/
+      site: なな徹
+      evidence:
+      - 800G+αに短縮
+      - 引き継ぐ
+    confidence: single
+    why: 信頼サイト1つだけ
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13776/
+  special:
+    value:
+    - 通常時の300G・777G・800G到達時に天井短縮を抽選（当選で最大32Gの前兆を経てAT。777Gでの当選は北斗揃い確定）
+    - AT終了後は設定1でも約25%以上で天国へ移る
+    sources:
+    - url: https://nana-press.com/kaiseki/machine/514/13775/
+      site: なな徹
+      evidence:
+      - 300G、777G、800G到達時に天井短縮抽選
+    - url: https://chonborista.com/slot/sammy-slot/181626/
+      site: ちょんぼりすた
+      evidence:
+      - 300G、777G、800G到達時のゲームで天井短縮抽選
+    confidence: high
+    why: 信頼サイト2つ以上
+    checked_sources:
+    - https://nana-press.com/kaiseki/machine/514/13775/
+    - https://chonborista.com/slot/sammy-slot/181626/
+checked: '2026-10-30'
